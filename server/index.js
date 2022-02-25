@@ -25,6 +25,10 @@ io.on("connection", (socket) => {
         socket.join(data);
         console.log(`User with ID: ${socket.id} joined room: ${data}`);
     })
+    // Mesaj işlemleri
+    socket.on("send_message", (data) => {
+        console.log(data);
+    });
     // kullanıcı çıkış yaptı
     socket.on('disconnect', () => {
         console.log(`${socket.id} disconnected`);
