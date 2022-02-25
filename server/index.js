@@ -8,6 +8,7 @@ app.use(cors());
 
 const server = http.createServer(app);
 
+// frontend kodunun hangi url'de çalışağını ve hangi metodları kullanacağını belirtiyoruz.
 const io = new Server(server, {
     cors: {
         origin: "http://localhost:3000",
@@ -15,14 +16,22 @@ const io = new Server(server, {
     },
 });
 
+// bağlantı durumları
 io.on("connection", (socket) => {
-    console.log(socket.id);
-
+    // kullanıcı bağlandı
+    console.log(`User Connected: ${socket.id}`);
+    //Kullanıcı odaya katıldı
+    socket.on("join_room", (data) => {
+        socket.join(data);
+        console.log(`User with ID: ${socket.id} joined room: ${data}`);
+    })
+    // kullanıcı çıkış yaptı
     socket.on('disconnect', () => {
         console.log(`${socket.id} disconnected`);
     });
 });
 
+// port numarası dinleniyor.
 server.listen(3001, () => {
     console.log("SERVER RUNNING");
 });
